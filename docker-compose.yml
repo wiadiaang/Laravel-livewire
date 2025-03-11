@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: laravel_frankenphp_livewire
+    image: laravel_frankenphp_livewire
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./docker/app.dockerfile
+    
+    volumes:
+      - ./:/var/www/app
+      - vendor_volume:/var/www/app/vendor
+    ports:
+      - "8002:80"
+    env_file:
+      - .env
+    # environment:
+    #   - APP_ENV=local
+    #   - APP_KEY=base64:randomkeyhere
+    networks:
+      - laravelNetwork
+
+networks:
+  laravelNetwork:
+    driver: bridge
+
+volumes:
+  vendor_volume:
